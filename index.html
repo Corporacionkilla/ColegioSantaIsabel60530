@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I.E. Santa Isabel N°60530 | Yumbaturo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Fuente Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        /* Fondo Selva para el Hero */
+        .hero-bg {
+            background-image: linear-gradient(rgba(20, 83, 45, 0.7), rgba(20, 83, 45, 0.6)), url('https://images.unsplash.com/photo-1596464522438-2d85d77484ca?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+        }
+        /* Patrón de hojas sutil para fondos claros */
+        .jungle-pattern {
+            background-color: #f0fdf4;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23166534' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="jungle-pattern text-gray-800">
+
+    <!-- Notificación Toast -->
+    <div id="toast" class="fixed top-5 right-5 bg-green-700 text-white px-6 py-3 rounded shadow-lg transform translate-x-full transition-transform duration-300 z-50 flex items-center gap-2">
+        <i data-lucide="check-circle"></i>
+        <span id="toast-message">Mensaje enviado correctamente</span>
+    </div>
+
+    <!-- Modal Intranet -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6 relative border-t-4 border-green-600">
+            <button onclick="toggleModal('loginModal')" class="absolute top-4 right-4 text-gray-400 hover:text-green-700">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+                    <i data-lucide="user-check" class="w-10 h-10 text-green-800"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-green-900">Acceso Yumbaturo</h2>
+                <p class="text-gray-500 text-sm">Plataforma Educativa</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">DNI / Código</label>
+                    <input type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none" placeholder="Ingresa tu usuario" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                    <input type="password" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 transition font-bold shadow-md hover:shadow-lg">
+                    Ingresar al Aula
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="bg-white/95 backdrop-blur-sm shadow-md fixed w-full z-40 border-b-2 border-yellow-500">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="bg-green-100 p-2 rounded-full">
+                        <i data-lucide="palmtree" class="w-8 h-8 text-green-700"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-sm md:text-lg font-bold text-green-900 leading-tight">I.E. SANTA ISABEL N°60530</h1>
+                        <span class="text-[10px] md:text-xs text-yellow-600 font-bold tracking-wider">SANTA ISABEL DE YUMBATURO</span>
+                    </div>
+                </div>
+
+                <!-- Menú Desktop -->
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="#inicio" class="text-gray-600 hover:text-green-700 font-semibold transition flex items-center gap-1"><i data-lucide="home" class="w-4 h-4"></i> Inicio</a>
+                    <a href="#nosotros" class="text-gray-600 hover:text-green-700 font-semibold transition">Nosotros</a>
+                    <a href="#niveles" class="text-gray-600 hover:text-green-700 font-semibold transition">Niveles</a>
+                    <a href="#noticias" class="text-gray-600 hover:text-green-700 font-semibold transition">Noticias</a>
+                    <a href="#contacto" class="text-gray-600 hover:text-green-700 font-semibold transition">Contacto</a>
+                    <button onclick="toggleModal('loginModal')" class="bg-green-700 text-white px-6 py-2 rounded-full font-bold hover:bg-green-800 transition flex items-center gap-2 shadow-lg border-b-4 border-green-900 active:border-b-0 active:translate-y-1">
+                        <i data-lucide="lock" class="w-4 h-4"></i> Intranet
+                    </button>
+                </div>
+
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-green-800 focus:outline-none bg-green-50 p-2 rounded-md">
+                        <i data-lucide="menu" class="w-8 h-8"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menú Móvil (Oculto) -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-green-100 absolute w-full shadow-xl">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="block px-6 py-4 text-green-900 font-medium hover:bg-green-50 border-b border-gray-100">Inicio</a>
+            <a href="#nosotros" onclick="toggleMobileMenu()" class="block px-6 py-4 text-green-900 font-medium hover:bg-green-50 border-b border-gray-100">Nosotros</a>
+            <a href="#niveles" onclick="toggleMobileMenu()" class="block px-6 py-4 text-green-900 font-medium hover:bg-green-50 border-b border-gray-100">Niveles</a>
+            <a href="#noticias" onclick="toggleMobileMenu()" class="block px-6 py-4 text-green-900 font-medium hover:bg-green-50 border-b border-gray-100">Noticias</a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="block px-6 py-4 text-green-900 font-medium hover:bg-green-50 border-b border-gray-100">Contacto</a>
+            <div class="p-4 bg-green-50">
+                <button onclick="toggleModal('loginModal'); toggleMobileMenu()" class="w-full text-center py-3 text-white font-bold bg-green-700 rounded-lg shadow-md">
+                    Acceder a Intranet
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="inicio" class="hero-bg min-h-screen flex items-center justify-center text-center px-4 pt-24 relative overflow-hidden">
+        <!-- Decoración Selva -->
+        <div class="absolute bottom-0 left-0 opacity-30 pointer-events-none transform -scale-x-100">
+             <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=300&auto=format&fit=crop" class="w-64 md:w-96 mask-image-bottom" style="mask-image: linear-gradient(to top, black, transparent);">
+        </div>
+
+        <div class="max-w-5xl text-white fade-in z-10 bg-green-900/40 p-6 md:p-10 rounded-3xl backdrop-blur-sm border border-white/20">
+            <div class="flex justify-center mb-4">
+                <span class="bg-yellow-500 text-green-900 font-extrabold px-4 py-1 rounded-full text-sm uppercase tracking-wider shadow-lg flex items-center gap-2">
+                    <i data-lucide="sun" class="w-4 h-4"></i> Bienvenidos
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-7xl font-bold mb-4 drop-shadow-lg font-serif">MATRÍCULAS ABIERTAS 2026</h1>
+            <h2 class="text-2xl md:text-4xl font-semibold mb-8 text-yellow-300 drop-shadow-md">PRIMARIA Y SECUNDARIA</h2>
+            <p class="text-lg md:text-xl text-white mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                Educación de calidad en el corazón de nuestra selva. Formando el futuro de Santa Isabel de Yumbaturo con identidad y valores.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#contacto" class="bg-yellow-500 text-green-900 px-8 py-4 rounded-full font-bold hover:bg-yellow-400 transition text-lg shadow-lg border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 flex items-center justify-center gap-2">
+                    <i data-lucide="pencil" class="w-5 h-5"></i> Inscribirse Ahora
+                </a>
+                <a href="#niveles" class="bg-green-800/80 border-2 border-green-400 text-white px-8 py-4 rounded-full font-bold hover:bg-green-700 transition text-lg backdrop-blur-md flex items-center justify-center gap-2">
+                    <i data-lucide="book-open" class="w-5 h-5"></i> Ver Niveles
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Stats con Iconos de Animales (Representados por Lucide o contexto) -->
+    <section class="py-12 bg-green-800 text-white relative overflow-hidden">
+        <!-- Decoración de fondo -->
+        <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
+            <i data-lucide="bird" class="w-64 h-64"></i>
+        </div>
+
+        <div class="container mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
+            <div class="p-4 group hover:bg-green-700 rounded-xl transition">
+                <div class="bg-yellow-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="users" class="w-8 h-8 text-green-900"></i>
+                </div>
+                <h3 class="text-3xl font-bold">500+</h3>
+                <p class="text-green-200 font-medium">Estudiantes</p>
+            </div>
+            <div class="p-4 group hover:bg-green-700 rounded-xl transition">
+                <div class="bg-yellow-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="trophy" class="w-8 h-8 text-green-900"></i>
+                </div>
+                <h3 class="text-3xl font-bold">20+</h3>
+                <p class="text-green-200 font-medium">Años Enseñando</p>
+            </div>
+            <div class="p-4 group hover:bg-green-700 rounded-xl transition">
+                <div class="bg-yellow-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="sprout" class="w-8 h-8 text-green-900"></i>
+                </div>
+                <h3 class="text-3xl font-bold">100%</h3>
+                <p class="text-green-200 font-medium">Compromiso Ambiental</p>
+            </div>
+            <div class="p-4 group hover:bg-green-700 rounded-xl transition">
+                <div class="bg-yellow-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition">
+                    <i data-lucide="monitor" class="w-8 h-8 text-green-900"></i>
+                </div>
+                <h3 class="text-3xl font-bold">Innovación</h3>
+                <p class="text-green-200 font-medium">Sala de Cómputo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Nosotros -->
+    <section id="nosotros" class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 relative">
+                    <!-- Marco decorativo -->
+                    <div class="absolute -top-4 -left-4 w-full h-full border-4 border-yellow-500 rounded-2xl z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1000&auto=format&fit=crop" alt="Niños estudiando" class="rounded-2xl shadow-2xl relative z-10 w-full object-cover h-[400px]">
+                </div>
+                <div class="md:w-1/2">
+                    <div class="flex items-center gap-2 mb-2">
+                        <i data-lucide="leaf" class="text-green-600"></i>
+                        <h4 class="text-green-700 font-bold uppercase tracking-wide">Nuestra Identidad</h4>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">I.E. Santa Isabel N°60530</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Somos una institución comprometida con la educación rural de calidad en Yumbaturo. Valoramos nuestra riqueza natural y cultural, integrando el conocimiento moderno con el respeto por nuestro entorno amazónico.
+                    </p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-4 bg-white p-3 rounded-lg shadow-sm border border-green-100">
+                            <div class="bg-green-100 p-2 rounded-full text-green-700"><i data-lucide="heart"></i></div>
+                            <span class="text-gray-700 font-medium">Formación en valores y ciudadanía.</span>
+                        </li>
+                        <li class="flex items-center gap-4 bg-white p-3 rounded-lg shadow-sm border border-green-100">
+                            <div class="bg-green-100 p-2 rounded-full text-green-700"><i data-lucide="tree-deciduous"></i></div>
+                            <span class="text-gray-700 font-medium">Proyectos productivos y ambientales.</span>
+                        </li>
+                        <li class="flex items-center gap-4 bg-white p-3 rounded-lg shadow-sm border border-green-100">
+                            <div class="bg-green-100 p-2 rounded-full text-green-700"><i data-lucide="laptop"></i></div>
+                            <span class="text-gray-700 font-medium">Acceso a tecnología educativa.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Niveles -->
+    <section id="niveles" class="py-20 bg-green-50 relative">
+        <!-- Decoración hojas -->
+        <i data-lucide="leaf" class="absolute top-10 left-10 text-green-200 w-32 h-32 opacity-50 rotate-45"></i>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-yellow-600 font-bold uppercase text-sm">Oferta Educativa 2026</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-green-900 mb-4 mt-2">Nuestros Niveles</h2>
+                <div class="w-24 h-1 bg-yellow-500 mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                <!-- Primaria -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border-b-4 border-yellow-500">
+                    <div class="h-56 bg-cover bg-center relative group" style="background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                        <div class="absolute inset-0 bg-green-900/20 group-hover:bg-green-900/10 transition"></div>
+                        <div class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-md">
+                            <i data-lucide="bug" class="text-green-700 w-6 h-6"></i> <!-- Icono Fauna -->
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold text-green-900">Nivel Primaria</h3>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">1° a 6° Grado</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">Desarrollamos las capacidades fundamentales de lectura, escritura y matemáticas, siempre en contacto con la naturaleza.</p>
+                        <ul class="text-sm text-gray-500 space-y-3">
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Ciencia y Ambiente</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Arte y Cultura Local</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Tutoría Personalizada</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Secundaria -->
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 border-b-4 border-green-700">
+                    <div class="h-56 bg-cover bg-center relative group" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');">
+                        <div class="absolute inset-0 bg-green-900/20 group-hover:bg-green-900/10 transition"></div>
+                         <div class="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-md">
+                            <i data-lucide="bird" class="text-green-700 w-6 h-6"></i> <!-- Icono Fauna -->
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-2xl font-bold text-green-900">Nivel Secundaria</h3>
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">1° a 5° Año</span>
+                        </div>
+                        <p class="text-gray-600 mb-6">Preparamos a los jóvenes para el futuro, fomentando el liderazgo, el emprendimiento y la identidad regional.</p>
+                        <ul class="text-sm text-gray-500 space-y-3">
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Talleres Productivos</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Computación e Inglés</li>
+                            <li class="flex gap-2"><i data-lucide="check" class="text-yellow-500 w-4 h-4"></i> Orientación Vocacional</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Noticias/Comunicados -->
+    <section id="noticias" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-green-900 mb-10 text-center flex items-center justify-center gap-3">
+                <i data-lucide="megaphone" class="text-yellow-500"></i> Comunicados Recientes
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Noticia 1 -->
+                <div class="bg-white border border-green-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-green-400 transition cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Matrícula</span>
+                        <i data-lucide="calendar" class="text-green-300 group-hover:text-green-600 transition"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700 transition">Proceso de Admisión 2026</h3>
+                    <p class="mt-2 text-gray-600 text-sm">Acércate a la secretaría del colegio para reservar tu vacante de Lunes a Viernes.</p>
+                </div>
+                <!-- Noticia 2 -->
+                <div class="bg-white border border-green-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-green-400 transition cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Evento</span>
+                         <i data-lucide="music" class="text-green-300 group-hover:text-green-600 transition"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700 transition">Fiesta de San Juan</h3>
+                    <p class="mt-2 text-gray-600 text-sm">Preparativos para nuestra gran celebración tradicional con danzas y juane.</p>
+                </div>
+                <!-- Noticia 3 -->
+                <div class="bg-white border border-green-100 rounded-xl p-6 shadow-md hover:shadow-xl hover:border-green-400 transition cursor-pointer group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Comunidad</span>
+                         <i data-lucide="users" class="text-green-300 group-hover:text-green-600 transition"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-700 transition">Faena Comunal</h3>
+                    <p class="mt-2 text-gray-600 text-sm">Invitamos a los padres de familia a la jornada de limpieza y pintado este domingo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contacto" class="py-20 bg-green-900 text-white relative">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3">
+                        <i data-lucide="map-pin" class="text-yellow-400"></i> Ubícanos
+                    </h2>
+                    <p class="text-green-100 mb-8 text-lg">Visítanos en nuestras instalaciones en Santa Isabel de Yumbaturo. ¡Te esperamos!</p>
+                    
+                    <div class="space-y-8 bg-green-800/50 p-8 rounded-2xl backdrop-blur-sm border border-green-700">
+                        <div class="flex items-start gap-5">
+                            <div class="bg-yellow-500 p-3 rounded-full text-green-900 shadow-lg">
+                                <i data-lucide="home" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-yellow-400 text-lg">Dirección</h4>
+                                <p class="text-green-100">Carretera Principal S/N, Santa Isabel de Yumbaturo</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <div class="bg-yellow-500 p-3 rounded-full text-green-900 shadow-lg">
+                                <i data-lucide="phone" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-yellow-400 text-lg">Teléfono / WhatsApp</h4>
+                                <p class="text-green-100">+51 987 654 321</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <div class="bg-yellow-500 p-3 rounded-full text-green-900 shadow-lg">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-yellow-400 text-lg">Email</h4>
+                                <p class="text-green-100">direccion@santaisabel60530.edu.pe</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 text-gray-800 shadow-2xl border-4 border-yellow-500">
+                    <h3 class="text-2xl font-bold mb-2 text-green-800">Solicita Informes</h3>
+                    <p class="text-gray-500 mb-6 text-sm">Déjanos tus datos y te contactaremos para la matrícula.</p>
+                    <form onsubmit="handleContact(event)" class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-green-800 mb-1">Nombre</label>
+                                <input type="text" class="w-full bg-green-50 border border-green-200 rounded-lg px-3 py-3 outline-none focus:border-green-600 focus:bg-white transition" placeholder="Tu nombre" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-green-800 mb-1">Celular</label>
+                                <input type="tel" class="w-full bg-green-50 border border-green-200 rounded-lg px-3 py-3 outline-none focus:border-green-600 focus:bg-white transition" placeholder="999..." required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-green-800 mb-1">Interés</label>
+                            <select class="w-full bg-green-50 border border-green-200 rounded-lg px-3 py-3 outline-none focus:border-green-600 focus:bg-white transition">
+                                <option>Traslado Primaria</option>
+                                <option>Traslado Secundaria</option>
+                                <option>Primer Grado Primaria</option>
+                                <option>Primer Año Secundaria</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-green-800 mb-1">Mensaje</label>
+                            <textarea rows="3" class="w-full bg-green-50 border border-green-200 rounded-lg px-3 py-3 outline-none focus:border-green-600 focus:bg-white transition" placeholder="¿Alguna consulta adicional?" required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-green-700 text-white font-bold py-4 rounded-lg hover:bg-green-800 transition shadow-lg transform active:scale-95 flex justify-center gap-2">
+                            <i data-lucide="send" class="w-5 h-5"></i> Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-green-950 text-green-400 py-10 border-t border-green-900">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-4 mb-8">
+                <i data-lucide="palmtree" class="w-10 h-10 text-yellow-500"></i>
+                <div class="text-left">
+                    <h3 class="text-white font-bold text-lg">I.E. N°60530</h3>
+                    <p class="text-xs text-green-500">SANTA ISABEL - YUMBATURO</p>
+                </div>
+            </div>
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="#" class="hover:text-white transition transform hover:scale-110"><i data-lucide="facebook"></i></a>
+                <a href="#" class="hover:text-white transition transform hover:scale-110"><i data-lucide="youtube"></i></a>
+            </div>
+            <p class="text-sm">© 2026 I.E. Santa Isabel N°60530. Hecho con orgullo en la selva peruana.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Inicializar Iconos
+        lucide.createIcons();
+
+        // Función Menú Móvil
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Función Modal Intranet
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+            if (!modal.classList.contains('hidden')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Función Manejar Login
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = "Verificando...";
+            btn.classList.add('opacity-75');
+
+            setTimeout(() => {
+                toggleModal('loginModal');
+                showToast("Bienvenido, Docente/Alumno");
+                btn.innerHTML = originalText;
+                btn.classList.remove('opacity-75');
+                e.target.reset();
+            }, 1500);
+        }
+
+        // Función Manejar Contacto
+        function handleContact(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = "Enviando...";
+            
+            setTimeout(() => {
+                showToast("¡Mensaje enviado! Gracias por escribirnos.");
+                btn.innerHTML = originalText;
+                e.target.reset();
+            }, 1500);
+        }
+
+        // Función Mostrar Toast
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msgSpan = document.getElementById('toast-message');
+            
+            msgSpan.innerText = message;
+            toast.classList.remove('translate-x-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        // Cambiar estilo del Navbar al hacer scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg', 'bg-white/95');
+                nav.classList.remove('bg-white/0');
+            } else {
+                // nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>
